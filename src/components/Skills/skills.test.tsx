@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, logRoles } from "@testing-library/react";
 import { Skills } from "./skills";
 
 describe("Skills", () => {
@@ -24,7 +24,8 @@ describe("Skills", () => {
   });
 
   test("Start Learning button is not rendered", () => {
-    render(<Skills skills={skills} />);
+    const view = render(<Skills skills={skills} />);
+    logRoles(view.container);
     const startLearningButton = screen.queryByRole("button", {
       name: "Start learning",
     });
@@ -33,6 +34,7 @@ describe("Skills", () => {
 
   test("Start learning button is eventually displayed", async () => {
     render(<Skills skills={skills} />);
+    screen.debug();
     // findBy 1000ms default
     const startLearningButton = await screen.findByRole(
       "button",
@@ -43,6 +45,7 @@ describe("Skills", () => {
         timeout: 2000,
       }
     );
+    screen.debug();
     expect(startLearningButton).toBeInTheDocument();
   });
   test("manual queries", () => {
